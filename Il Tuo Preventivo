@@ -3,88 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inviaci Gratuitamente il Tuo Preventivo!</title>
+    <title>Ristorante Al Morè - Preventivo Evento</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f8f8f8;
+            background: url('https://i.imgur.com/Tw2djlX.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .container {
-            max-width: 600px;
-            background: white;
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7); /* 30% di trasparenza */
+            z-index: -1;
+        }
+        form {
+            background: rgba(255, 255, 255, 0.85);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            width: 50%;
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
         }
         label {
+            display: block;
+            margin-top: 10px;
             font-weight: bold;
         }
-        input, textarea, select {
+        input, select, textarea, button {
             width: 100%;
-            padding: 8px;
-            margin: 10px 0;
+            padding: 10px;
+            margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-size: 14px;
         }
         button {
-            background-color: #25D366;
+            background: #007BFF;
             color: white;
-            padding: 10px;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+            padding: 12px;
+            margin-top: 15px;
         }
         button:hover {
-            background-color: #1EBE5D;
+            background: #0056b3;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            form {
+                width: 90%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Inviaci il Tuo Preventivo!</h2>
-        <form id="quoteForm">
-            <label for="customer">Nome Cliente:</label>
-            <input type="text" id="customer" required>
-            
-            <label for="email">Email Cliente / Numero Cliente:</label>
-            <input type="email" id="email" required>
-            
-            <label for="eventType">Tipo di Evento:</label>
-            <input type="text" id="eventType" placeholder="Es. Matrimonio, Compleanno" required>
-            
-            <label for="guests">Numero di Invitati:</label>
-            <input type="number" id="guests" required>
-            
-            <label for="location">Location:</label>
-            <select id="location" required>
-                <option value="nostre location">Nostre Location</option>
-                <option value="location cliente">Location Cliente</option>
-            </select>
-            
-            <label for="options">Opzioni:</label>
-            <select id="options" required>
-                <option value="Ristorazione">Ristorazione</option>
-                <option value="Cocktail bar">Cocktail bar</option>
-                <option value="Entrambe">Entrambe</option>
-            </select>
-            
-            <label for="details">Dettagli dell'Evento:</label>
-            <textarea id="details" required></textarea>
-            
-            <label for="price">Budget per l'Evento (€):</label>
-            <input type="number" id="price" required>
-            
-            <button type="button" onclick="sendWhatsApp()">Invia WhatsApp</button>
-        </form>
-        <div id="quoteResult" style="margin-top: 20px;"></div>
-    </div>
+
+    <form>
+        <label for="email">Email Cliente:</label>
+        <input type="email" id="email" required>
+        
+        <label for="phone">Numero Cliente:</label>
+        <input type="tel" id="phone" required>
+
+        <label for="eventDate">Data dell'Evento:</label>
+        <input type="date" id="eventDate" required>
+
+        <label for="eventType">Tipo di Evento:</label>
+        <input type="text" id="eventType" placeholder="Es. Matrimonio, Compleanno" required>
+
+        <label for="guests">Numero di Invitati:</label>
+        <input type="number" id="guests" required>
+
+        <label for="location">Location:</label>
+        <select id="location" required>
+            <option value="nostre location">Nostre Location</option>
+            <option value="location cliente">Location Cliente</option>
+        </select>
+
+        <label for="options">Opzioni:</label>
+        <select id="options" required>
+            <option value="Ristorazione">Ristorazione</option>
+            <option value="Cocktail bar">Cocktail bar</option>
+            <option value="Entrambe">Entrambe</option>
+        </select>
+
+        <label for="details">Dettagli dell'Evento:</label>
+        <textarea id="details" required></textarea>
+
+        <label for="price">Budget per l'Evento (€):</label>
+        <input type="number" id="price" required>
+
+        <button type="button" onclick="sendWhatsApp()">Invia WhatsApp</button>
+    </form>
 
     <script>
         function sendWhatsApp() {
-            let customer = document.getElementById("customer").value;
             let email = document.getElementById("email").value;
+            let phone = document.getElementById("phone").value;
+            let eventDate = document.getElementById("eventDate").value;
             let eventType = document.getElementById("eventType").value;
             let guests = document.getElementById("guests").value;
             let location = document.getElementById("location").value;
@@ -92,8 +122,8 @@
             let details = document.getElementById("details").value;
             let price = document.getElementById("price").value;
 
-            if (customer && email && eventType && guests && location && options && details && price) {
-                let message = `Preventivo per: ${customer}\nEmail: ${email}\nEvento: ${eventType}\nInvitati: ${guests}\nLocation: ${location}\nOpzioni: ${options}\nDettagli: ${details}\nBudget: €${price}`;
+            if (email && phone && eventDate && eventType && guests && location && options && details && price) {
+                let message = `Preventivo per:\n📧 Email: ${email}\n📞 Telefono: ${phone}\n📅 Data Evento: ${eventDate}\n🎉 Tipo di Evento: ${eventType}\n👥 Invitati: ${guests}\n📍 Location: ${location}\n🍽️ Opzioni: ${options}\n📝 Dettagli: ${details}\n💰 Budget: €${price}`;
                 let whatsappURL = `https://wa.me/3483294135?text=${encodeURIComponent(message)}`;
                 window.open(whatsappURL, '_blank');
             } else {
@@ -101,5 +131,6 @@
             }
         }
     </script>
+
 </body>
 </html>
